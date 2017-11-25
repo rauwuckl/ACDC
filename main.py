@@ -2,6 +2,10 @@ from flask import Flask, render_template, session, request
 import matplotlib.pyplot as plt
 import numpy as np
 
+import backend.Vision_Mockup as vision
+
+from io import BytesIO
+
 
 import skimage.io
 import skimage.exposure
@@ -11,6 +15,10 @@ import flask
 app = Flask(__name__)
 app.config['SECRET_KEY'] = '939fkj3kwlsk4958204kfjnkl39f9Ixne9l39((d'
 
+
+global patient_pictures
+patient_pictures = dict()
+
 @app.route('/')
 def index():
     return render_template('index.html')
@@ -18,26 +26,35 @@ def index():
 @app.route('/api/uploadImage', methods=['POST'])
 def classifyImage():
     """classify and save the uploaded image"""
+    print("classifyImage")
+    print(request)
+    # request.get_data()
+    # request.data
+    print(request.headers)
 
-    file = request.files['file'];
-    print(file)
 
-    img = skimage.io.imread(request.files['file'])
-    print(img.shape)
-    norm_img = np.empty(img.shape)
-    norm_img[:, :, 0] = skimage.exposure.equalize_hist(img[:, :, 0])
-    norm_img[:, :, 1] = skimage.exposure.equalize_hist(img[:, :, 1])
-    norm_img[:, :, 2] = skimage.exposure.equalize_hist(img[:, :, 2])
+    # file = request.files['file'];
+    raw_data = request.data
+    file_pointer = BytesIO(raw_data)
 
-    bw = np.mean(img/np.max(img), axis=2)
-    norm_bw = skimage.exposure.equalize_adapthist(bw)
-    print("done")
-    plt.imshow(norm_bw, cmap="Greys")
-    plt.show()
+    img = skimage.io.imread(file_pointer) #request.files['file'])
+    # plt.imshow(img, cmap="Greys")
+    # plt.show()
 
-    answer = None
+    patient_id, distress = vision.get_person_id_and_distress(img)
+
+    patient_pictures[patient_id] = img
+
+    answer = {'status': 'doctor_coming'}
 
     return flask.jsonify(answer)
+
+@app.route('/api/patientInfo/<patient_id>')
+def display_patient_info(patient_id):
+
+
+    pass
+
 
 
 
