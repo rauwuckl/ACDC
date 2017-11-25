@@ -6,8 +6,12 @@ pattern_name = re.compile("([a-zA-Z]*)")
 
 #Loads the Json using the Patient ID
 def load_record(patient_id):
-    path = 'C:/Users/Paperplane/PycharmProjects/OxfordHack/fixtures/records/' + patient_id + '.json'
-    return jn.load(open(path))
+    try:
+        #EDIT PATH TO MATCH YOUR LOCAL WORKSPACE
+        path = 'C:/Users/Paperplane/PycharmProjects/OxfordHack/fixtures/records/' + patient_id + '.json'
+        return jn.load(open(path))
+    except IOError:
+        print('cannot open', patient_id)
 
 #Extracts basic data; name, date of birth, gender and returns as dictionary
 def get_personal_details(patient_record):
@@ -90,6 +94,7 @@ def most_recent_observations(obs):
         most_recent[obs[ob]['type']] = obs[ob]
     return most_recent
 
+#CALL THIS FUNCTION
 def build_file(patient_id):
     patient_record = load_record("Anderson596_Mose815_68")
     patient_details = get_personal_details(patient_record)
