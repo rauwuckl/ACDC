@@ -3,3 +3,5 @@
 .idea/
 fixtures/
 src/__pycache__
+src/data
+src/logs

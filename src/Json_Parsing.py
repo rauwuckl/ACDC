@@ -96,7 +96,7 @@ def most_recent_observations(obs):
 
 #CALL THIS FUNCTION
 def build_file(patient_id):
-    patient_record = load_record("Anderson596_Mose815_68")
+    patient_record = load_record(patient_id)
     patient_details = get_personal_details(patient_record)
     patient_conditions = get_conditions(patient_record)
     patient_observations = get_observations(patient_record)
@@ -105,7 +105,7 @@ def build_file(patient_id):
         'conditions': patient_conditions,
         'observations': patient_observations
     }
-    return jn.dumps(patient_file, indent=4)
+    return patient_file
 
 
 
