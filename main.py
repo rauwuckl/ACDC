@@ -3,10 +3,10 @@ from io import BytesIO
 import flask
 from flask import Flask, render_template, request, send_file, abort
 from flask_mail import Mail, Message
+from timeit import default_timer as timer
 
 import src.Patient_Data as Patient_Data
 import src.VisionAPI_Interface as Vision
-import src.get_papers as get_papers
 
 domain = "http://127.0.0.1:5000/"
 
@@ -61,8 +61,8 @@ def classifyImage():
 
     return flask.jsonify(answer)
 
-@app.route('/api/patientImage/<patient_id>')
-def getPatientImage(patient_id):
+@app.route('/api/patientImage/<patient_id>/<hacky_hash>')
+def getPatientImage(patient_id, hacky_hash):
     try:
         raw_data = patient_pictures[patient_id]
         fp = BytesIO(raw_data)
@@ -75,24 +75,24 @@ def getPatientImage(patient_id):
 
 def notifyDoctor(patient_id, distress):
     header = "A patient needs you (Level {} pain)".format(distress)
-    body = domain + "patientInfo/" + patient_id
+    hacky_hash = timer() % 100000
+    body = domain + "patientInfo/{}/{}".format(patient_id, hacky_hash)
     msg = Message(subject=header, sender="pimpmypatient@brueckepfaffenstein.de", body=body, recipients=["chutter@uos.de"])
     mail.send(msg)
 
 
 
-@app.route('/patientInfo/<patient_id>')
-def display_patient_info(patient_id):
+@app.route('/patientInfo/<patient_id>/<hacky_hash>')
+def display_patient_info(patient_id, hacky_hash):
     try:
         patient_data = Patient_Data.get_patient_data(patient_id)
-        relevant_paper_for_patient = Patient_Data.get_relevant_papers()
     except ValueError:
         abort(404)
 
 
 
     distress = patient_distress_levels.get(patient_id, 0)
-    return render_template('doctor_view.html', distress=distress, data=patient_data)# conditions=conditions, patient_id=patient_id, personal_details=personal_details)
+    return render_template('doctor_view.html', hacky_hash=hacky_hash, distress=distress, data=patient_data)# conditions=conditions, patient_id=patient_id, personal_details=personal_details)
 
 
 if __name__ == '__main__':
