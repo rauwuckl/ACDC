@@ -27,11 +27,13 @@ def get_face_id(binary_stream):
     return result
 
 def parse_azure_response(response):
-    """
-    Function receives response object as is delivered by the Microsoft vision api.
-
-    :param response: reaquest.response object
-    :return: (patient_id: String, distress_level: float(between 0 and 1, 1 is max pain)
-    """
-    return ("Ankunding307_Kevin849_40", 0.3) #TODO there needs to go functionallity here
+    parsed = json.loads(response.text)
+    sadness_num= parsed[0]['faceAttributes']['emotion']['sadness']
+    anger_num = parsed[0]['faceAttributes']['emotion']['anger']
+    contempt_num = parsed[0]['faceAttributes']['emotion']['contempt']
+    disgust_num = parsed[0]['faceAttributes']['emotion']['disgust']
+    fear_num = parsed[0]['faceAttributes']['emotion']['fear']
+    faceId_key = parsed [0]['faceId']
+    pain = (sadness_num + anger_num + contempt_num + disgust_num + fear_num)
+    return(faceId_key, pain)
 
