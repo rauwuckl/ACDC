@@ -8,7 +8,7 @@ pattern_name = re.compile("([a-zA-Z]*)")
 def load_record(patient_id):
     try:
         #EDIT PATH TO MATCH YOUR LOCAL WORKSPACE
-        path = '/Users/shakti/PycharmProjects/ACDC/records/' + patient_id + '.json'
+        path = '/Users/Paperplane/PycharmProjects/OxfordHack/fixtures/records/' + patient_id + '.json'
         return jn.load(open(path))
     except IOError:
         print('cannot open ', path)
