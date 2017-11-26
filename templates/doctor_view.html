@@ -6,69 +6,86 @@
     <script type="text/javascript" src="http://code.jquery.com/jquery-1.4.2.min.js"></script>
     <!-- <script type="text/javascript" src="../static/script_v1_1.js"></script> -->
 </head>
-<body patient_identifier="{{ data.patient_id }}">
-<!-- <button id="redirect"> redirect </button> -->
-<div class="content">
-<div class="column">
-  <div id="patient_profile_pic", style="background-color: rgba(255, 0, 0, {{ distress }}"><img src="/api/patientImage/{{ data.patient_id }}"></div>
-  <div id="patient_metadata">
-    <div class="attribute">
-      <p class="title">Name</p>
-      <p class="value">{{ data.personal_details.g_name }} {{ data.personal_details.f_name }}</p>
-    </div>
-    <div class="attribute">
-      <p class="title">Gender</p>
-      <p class="value">{{ data.personal_details.gender }}</p>
-    </div>
-    <div class="attribute">
-      <p class="title">Age</p>
-      <p class="value">{{ data.personal_details.age }}</p>
-    </div>
-    <div class="attribute">
-      <p class="title">Pain</p>
-      <p class="value">{{ distress }}</p>
-    </div>
-  </div>
-</div>
-<div class="column">
-  <div class="info_table" id="measurements_table">
-    <h1>Recent Measurements</h1>
-    <table style="width:100%">
-      <tr>
-        <th>Measurement</th>
-        <th>Date</th>
-        <th>Value</th>
-      </tr>
-      {% for obs in data.observations %}
-      <tr>
-        <td>{{ obs.type }}</td>
-        <td>{{ obs.date[:10] }}</td>
-        <td>{{ obs.val[:8] }} {{ obs.unit }} </td>
-      </tr>
-      {% endfor %}
-    </table>
-  </div>
-  <div class="info_table" id="conditions_table">
-    <h1>Recent Measurements</h1>
-    <table style="width:100%">
-      <tr>
-        <th>Name</th>
-        <th>Onset</th>
-        <th>Status</th>
-      </tr>
-      {% for condition in data.conditions %}
-      <tr>
-        <td>{{ condition.cond_name }}</td>
-        <td>{{ condition.cond_onset[:10] }}</td>
-        <td>{{ condition.cond_status }}</td>
-      </tr>
-      {% endfor %}
-    </table>
-  </div>
 
-  <div class="info_table" id="papers_table">
-  </div>
-</div>
-</div>
+<body patient_identifier="{{ data.patient_id }}">
+    <div id="header">Pimp My Doctor</div>
+    <div id="patient_card">
+        <div id="patient_profile_pic", style=" box-shadow: 12px 0 15px -4px rgba(255, 0, 0, {{distress}}), -12px 0 8px -4px rgba(255, 0, 0, {{distress}});">
+            <img src="/api/patientImage/{{ data.patient_id }}">
+        </div>
+        <table id="patient_metadata">
+            <tr class="attribute">
+                <td class="title">Name:</td>
+                <td class="value">{{ data.personal_details.g_name }} {{ data.personal_details.f_name }}</td>
+            </tr>
+            <tr class="attribute">
+                <td class="title">Gender:</td>
+                <td class="value">{{ data.personal_details.gender }}</td>
+            </tr>
+            <tr class="attribute">
+                <td class="title">Age:</td>
+                <td class="value">{{ data.personal_details.age }}</td>
+            </tr>
+            <tr class="attribute">
+                <td class="title">Pain:</td>
+                <td class="value">{{ distress }}</td>
+            </tr>
+        </table>
+    </div>
+    <div id="patient_data">
+        <div class="data-panel">
+            <span class="data-panel-title" href="#accordion-1">Recent Observations</span>
+            <hr>
+            <div id="accordion-1" class="data-panel-content">
+                <div class="info_table" id="measurements_table">
+                    <table style="width:90%">
+                        <tr class="tab-heading">
+                            <th>Measurement</th>
+                            <th>Date</th>
+                            <th>Value</th>
+                        </tr>
+                        {% for obs in data.observations %}
+                        <tr class="tab-content">
+                            <td>{{ obs.type }}</td>
+                            <td>{{ obs.date[:10] }}</td>
+                            <td>{{ obs.val[:8] }} {{ obs.unit }} </td>
+                        </tr>
+                        {% endfor %}
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="data-panel">
+            <span class="data-panel-title" href="#accordion-1">Recent Conditions</span>
+            <hr>
+            <div id="accordion-2" class="data-panel-content">
+                <div class="info_table" id="conditions_table">
+                    <table style="width:90%">
+                        <tr class="tab-heading">
+                            <th>Name</th>
+                            <th>Onset</th>
+                            <th>Status</th>
+                        </tr>
+                        {% for condition in data.conditions %}
+                        <tr class="tab-content">
+                            <td>{{ condition.cond_name }}</td>
+                            <td>{{ condition.cond_onset[:10] }}</td>
+                            <td>{{ condition.cond_status }}</td>
+                        </tr>
+                        {% endfor %}
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="data-panel">
+            <span class="data-panel-title" href="#accordion-1">Suggested Reading</span>
+            <hr>
+            <div id="accordion-3" class="data-panel-content">
+                <div class="info_table" id="papers_table"></div>
+            </div>
+        </div>
+    </div>
 </body>
 </html>

@@ -1,25 +1,41 @@
-
+body {
+    background-color: #fffff;
+}
 
 #camera {
   display: inline-block;
   background-color: gray;
   width: 500px;
-  height: 600px;
+  height: 650px;
   margin: 5px;
   margin: auto;
   margin-left: auto;
   margin-right: auto;
+  margin-top: 80px;
   align-items: center;
   justify-content: center;
-
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
+
 #camera .placeholder {
   padding: 0.5em;
 }
 
 #call_doctor {
-  width: 50%;
+  width: 80%;
   margin: auto;
+  margin-top:-100px;
+  z-index:9;
+  background-color: #4CAF50; /* Green */
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 25px;
+  border-radius: 4px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
 .center{
@@ -32,10 +48,18 @@
   height: 601px;
   z-index: 10;
   position: relative;
-  margin-top: -605px;
+  margin-top: -505px;
   /*overflow: visible;*/
-  background: rgba(255,255,255,.8);
+  background: none;
   display: none;
+  font-family: Helvetica, Arial, sans-serif;
+  font-size: 30px;
+  line-height: 2em;
+  font-weight: 600;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: #e62e00;
+  text-shadow: 2px 2px 4px #ffffff;
 }
 
 #doctor_coming_overlay p{
@@ -45,21 +69,10 @@
 #content_window{
     width:500px;
     height: 650px;
-
-    border-color: black;
-    border-style: solid;
-
     padding: 10px;
-
     margin: auto;
 }
-#patient_profile_pic{
-  border: 1px solid black;
-  padding: 5px;
-  width: auto;
-  vertical-align: top;
-  /*display: inline-block;*/
-}
+
 
 #loader {
   display: none;
@@ -112,31 +125,133 @@ html body{
 
 .column{
   height: 100%;
-  border: 1px solid black;
   float: left;
   padding: 5px;
 }
 
+#patient_profile_pic{
+  width: 250px;
+  margin-left:auto;
+  margin-right:auto;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
+
 #patient_profile_pic img{
   width: 250px;
+  margin-left: auto;
+  margin-right: auto;
   /*height: 300px;*/
 }
 
 .info_table{
-  border: 1px solid black;
   padding: 10px;
   vertical-align: top;
+  text-align:left;
   margin: 5px;
+  margin-bottom: 20px;
+  font-family: NexusSerif,Georgia,serif;
 }
+
+.info_table .tab-heading {
+    font-size:20px;
+}
+
+.info_table .tab-content {
+    font-size:13px;
+}
+
 .attribute{
   margin-bottom: 20px;
 }
 .attribute .title{
   font-weight: bold;
+  text-transform: uppercase;
+  text-align:right;
 }
 .attribute .value{
-  margin-left: 10px;
+  margin-left: 5px;
+  text-align:left;
 }
 table{
   border-spacing: 50px 0;
+  margin: 10px;
 }
+
+#patient_card{
+  font-family: NexusSerif,Georgia,serif;
+  top: 0px;
+  padding-top:20px; /* padding-top must be the same as header height */
+  width:300px;
+  height:100%;
+  background-color: #ffffff;
+  position: fixed;
+  z-index:299;
+  left:0px;
+  border-right: thin solid #002147;
+  box-shadow: 3px 0 9px -4px rgb(0, 33, 71, 0.8);
+}
+
+#patient_metadata{
+  margin-left: auto;
+  margin-right: auto;
+  width:280px;
+  border-spacing: 10px 0;
+}
+
+#header {
+    width: 100%;
+    height: 80px;
+    position: fixed;
+    background-color: #002147;
+    box-shadow: 0 0 4px 8px #002147;
+    z-index:99;
+    top:0px;
+    left:0px;
+    text-align:center;
+    line-height:100px;
+    font-family: NexusSerif,Georgia,serif;
+    font-size: 50px;
+    color: #e6e6e6;
+}
+
+#patient_data{
+  position: relative;
+  width: 100%;
+  padding-left:310px; /* padding-left must be the same as sidebar width */
+  height: 300px; /* This could be anything, content should scroll vertical */
+  box-sizing:border-box;
+  padding-top: 110px; /* padding-top must be the same as header height */
+}
+
+.data-panel .data-panel-title{
+    font-family: NexusSerif,Georgia,serif;
+    font-size: 30px;
+}
+
+hr {
+    display: block;
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+    margin-left: auto;
+    margin-right: auto;
+    border-style: inset;
+    border-width: 1px;
+}
+
+.fade_line{
+    display:block;
+    border:none;
+    color:white;
+    height:1px;
+    background:black;
+    background: -webkit-gradient(radial, 50% 50%, 0, 50% 50%, 350, from(#000), to(#fff));
+    z-index:999;
+}
+
+hr {
+    border: 0;
+    height: 1px;
+    background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0));
+    }

@@ -85,7 +85,9 @@ function call_doctor(){
     $("#loader").hide();
     console.log(respObject);
     if(respObject.status == "doctor_coming"){
+      $("#camera").css("opacity", .5);
       $("#doctor_coming_overlay").show();
+      $("#call_doctor").hide();
       console.log("showed doctor_coming");
     }
     //this.discard(); // discard snapshot and show video stream again
@@ -123,5 +125,26 @@ function uploadFile(blob){
     xhttp.send(formdata);
     return false;
 }
+ function close_accordion_section() {
+        $('.accordion .accordion-section-title').removeClass('active');
+        $('.accordion .accordion-section-content').slideUp(300).removeClass('open');
+    }
 
+    $('.accordion-section-title').click(function(e) {
+        // Grab current anchor value
+        var currentAttrValue = $(this).attr('href');
+
+        if($(e.target).is('.active')) {
+            close_accordion_section();
+        }else {
+            close_accordion_section();
+
+            // Add active class to section title
+            $(this).addClass('active');
+            // Open up the hidden content panel
+            $('.accordion ' + currentAttrValue).slideDown(300).addClass('open');
+        }
+
+        e.preventDefault();
+    });
 });
