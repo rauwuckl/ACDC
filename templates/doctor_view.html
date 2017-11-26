@@ -84,6 +84,28 @@
             <hr>
             <div id="accordion-3" class="data-panel-content">
                 <div class="info_table" id="papers_table"></div>
+                <table style="width:90%">
+                    <tr>
+                      <th>Title</th>
+                      <th>Author</th>
+                      <th>Date</th>
+                    </tr>
+                    {% for pap in data.paper %}
+                    <tr>
+                      <td>
+                        {% if pap.url %}
+                        <a href={{ pap.url }} target="_blank">
+                          {{ pap.title }}
+                        </a>
+                        {% else %}
+                        {{ pap.title }}
+                        {% endif %}
+                      </td>
+                      <td>{{ pap.author }}</td>
+                      <td>{{ pap.date }}</td>
+                    </tr>
+                    {% endfor %}
+                </table>
             </div>
         </div>
     </div>

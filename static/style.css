@@ -127,6 +127,7 @@ html body{
   height: 100%;
   float: left;
   padding: 5px;
+  max-width: 70%;
 }
 
 #patient_profile_pic{

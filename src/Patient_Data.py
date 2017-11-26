@@ -1,5 +1,6 @@
 import datetime
 import src.Json_Parsing as Json_Parsing
+import src.get_papers as get_papers
 
 def get_patient_data(patient_id):
     patient_data = Json_Parsing.build_file(patient_id)
@@ -11,8 +12,11 @@ def get_patient_data(patient_id):
 
     observations = clean_observations(patient_data['observations'])
 
+    relevant_paper_raw = get_papers.get_relevant_papers(patient_id)
 
-    return dict(personal_details=personal_details, patient_id=patient_id, conditions=conditions, observations=observations)
+    relevant_paper = clean_relevant_paper(relevant_paper_raw)
+
+    return dict(paper=relevant_paper, personal_details=personal_details, patient_id=patient_id, conditions=conditions, observations=observations)
 
 def clean_observations(observations_dict):
     obs_list = list(observations_dict.values())
@@ -24,6 +28,23 @@ def clean_observations(observations_dict):
         obs['unit'] = unit
     return obs_list
 
+def clean_relevant_paper(raw_paper):
+    collector = list()
+    for paper in raw_paper.values():
+        clean_paper = dict()
+        clean_paper['title'] = paper['dc:title']
+        clean_paper['author'] = paper['dc:creator']
+        clean_paper['date'] = paper['prism:coverDate']
+
+        pii_value = paper.get("pii", None)
+        if pii_value:
+            clean_paper['url'] = "https://www.sciencedirect.com/science/article/pii/{}".format(pii_value)
+        else:
+            clean_paper['url'] = None
+
+        # TODO add paper url
+        collector.append(clean_paper)
+    return collector
 
 
 def get_unique_value_string(value_dict):

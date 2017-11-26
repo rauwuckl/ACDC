@@ -1,14 +1,19 @@
 
+import json
 import requests
 
+with open("general_config.json", "r") as f:
+    config = json.load(f)
+
+with open("ms_id_2_key.json", "r") as f:
+    ms_id_2_key = json.load(f)
+
 def get_face_id(binary_stream):
-    subscription_key = '151948f194d6430692fad8ea8c0246c5'
-    uri_base = 'westcentralus.api.cognitive.microsoft.com'
 
     # Request headers.
     headers = {
         'Content-Type': 'application/octet-stream',
-        'Ocp-Apim-Subscription-Key': subscription_key,
+        'Ocp-Apim-Subscription-Key': config["subscription_key"],
     }
 
     # Request parameters.
@@ -21,17 +26,54 @@ def get_face_id(binary_stream):
     # Body. The URL of a JPEG image to analyze.
 
     # Execute the REST API call and get the response.
-    response = requests.request('POST', 'https://' + uri_base + '/face/v1.0/detect/', data=binary_stream, headers=headers, params=params)
+    response = requests.request('POST', 'https://' + config["uri_base"] + '/face/v1.0/detect/', data=binary_stream, headers=headers, params=params)
 
-    result =  parse_azure_response(response)
-    return result
+    response_json = json.loads(response.text)
+    pain =  classify_pain(response_json)
+    faceID = response_json[0]['faceId']
+    print(['faceId'])
 
-def parse_azure_response(response):
-    """
-    Function receives response object as is delivered by the Microsoft vision api.
+    ms_person_id = identify_person(faceID)
+    print(ms_person_id)
 
-    :param response: reaquest.response object
-    :return: (patient_id: String, distress_level: float(between 0 and 1, 1 is max pain)
-    """
-    return ("Ankunding307_Kevin849_40", 0.3) #TODO there needs to go functionallity here
+    our_person_id = ms_id_2_key[ms_person_id]
 
+    #TODO translate faceID to our Key
+    return our_person_id, pain
+
+def classify_pain(parsed):
+    sadness_num= parsed[0]['faceAttributes']['emotion']['sadness']
+    anger_num = parsed[0]['faceAttributes']['emotion']['anger']
+    contempt_num = parsed[0]['faceAttributes']['emotion']['contempt']
+    disgust_num = parsed[0]['faceAttributes']['emotion']['disgust']
+    fear_num = parsed[0]['faceAttributes']['emotion']['fear']
+    pain = (sadness_num + anger_num + contempt_num + disgust_num + fear_num)
+    return pain
+
+def identify_person(faceID):
+    print("identify_person")
+
+    # Request headers.
+    headers = {
+        'Content-Type': 'application/json',
+        'Ocp-Apim-Subscription-Key': config["subscription_key"],
+    }
+
+    body = {
+        "personGroupId": config["personGroupID"],
+        "faceIds":[
+            faceID
+        ],
+        "maxNumOfCandidatesReturned": 1,
+        "confidenceThreshold": 0.5
+    }
+
+    # Body. The URL of a JPEG image to analyze.
+
+    # Execute the REST API call and get the response.
+    response = requests.request('POST', 'https://' + config["uri_base"] + '/face/v1.0/identify', json=body, headers=headers)
+    print(response)
+    print(response.text)
+    response_json = json.loads(response.text)
+    canidate = response_json[0]["candidates"][0]["personId"]
+    return canidate
