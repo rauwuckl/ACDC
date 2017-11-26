@@ -22,10 +22,11 @@ def get_search_terms(patient_id):
         conds.append(re.sub("\s+", "+", re.sub('[(){}<>]', '',patient_report['conditions'][str(condition)]['cond_name'])))
     return conds
 
-
-def get_relevant_papers(conditions):
+#CALL THIS FUNCTION
+def get_relevant_papers(patient_id):
     results = {}
     count = 0
+    conditions = get_search_terms(patient_id)
     for cond in conditions:
         doc_srch = ElsSearch(cond, 'scopus')
         doc_srch.execute(client, get_all=False)
@@ -33,19 +34,17 @@ def get_relevant_papers(conditions):
             results[str(count)] = res
             count += 1
         print("doc_srch for ", cond, " has", len(doc_srch.results), "results.")
-    return json.dumps(get_n_most_cited(5, results))
+    return json.dumps(get_n_most_cited(5, results))         #CHANGE TO NUMBER OF WANTED PAPERS
 
 def get_n_most_cited(n, papers):
     papers_by_citations = {}
     top_n = {}
     for group in papers:
         papers_by_citations[group] =  int(papers[group]['citedby-count'])
-    s = OrderedDict(sorted(papers_by_citations.items(), reverse=True, key=lambda t: t[1]))
-    print(s)
-    srt = list(s.keys())
-    print(srt)
+    srt = list(OrderedDict(sorted(papers_by_citations.items(), reverse=True, key=lambda t: t[1])).keys())
     for i in range(0,n):
-        print(papers[(srt[i])])
         top_n[str(i)] = papers[(srt[i])]
     return top_n
 
+#EXAMPLE
+print(get_relevant_papers("Haag157_Sol203_30"))
