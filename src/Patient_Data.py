@@ -1,5 +1,6 @@
 import datetime
 import src.Json_Parsing as Json_Parsing
+import src.get_papers as get_papers
 
 def get_patient_data(patient_id):
     patient_data = Json_Parsing.build_file(patient_id)
@@ -10,6 +11,9 @@ def get_patient_data(patient_id):
     conditions = list(patient_data['conditions'].values())
 
     observations = clean_observations(patient_data['observations'])
+
+    relevant_paper = get_papers
+
 
 
     return dict(personal_details=personal_details, patient_id=patient_id, conditions=conditions, observations=observations)
@@ -23,7 +27,6 @@ def clean_observations(observations_dict):
         obs['val'] = val
         obs['unit'] = unit
     return obs_list
-
 
 
 def get_unique_value_string(value_dict):

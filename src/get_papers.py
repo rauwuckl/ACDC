@@ -19,7 +19,7 @@ def get_search_terms(patient_id):
     patient_report = jp.build_file(patient_id)
     conds = []
     for condition in patient_report['conditions']:
-        conds.append(re.sub("\s+", "+", re.sub('[(){}<>]', '',patient_report['conditions'][str(condition)]['cond_name'])))
+        conds.append(re.sub("\s+", "+", re.sub('[(){}<>]', '', patient_report['conditions'][str(condition)]['cond_name'])))
     return conds
 
 #CALL THIS FUNCTION

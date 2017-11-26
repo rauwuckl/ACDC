@@ -6,6 +6,7 @@ from flask_mail import Mail, Message
 
 import src.Patient_Data as Patient_Data
 import src.VisionAPI_Interface as Vision
+import src.get_papers as get_papers
 
 domain = "http://127.0.0.1:5000/"
 
@@ -84,8 +85,11 @@ def notifyDoctor(patient_id, distress):
 def display_patient_info(patient_id):
     try:
         patient_data = Patient_Data.get_patient_data(patient_id)
+        relevant_paper_for_patient = Patient_Data.get_relevant_papers()
     except ValueError:
         abort(404)
+
+
 
     distress = patient_distress_levels.get(patient_id, 0)
     return render_template('doctor_view.html', distress=distress, data=patient_data)# conditions=conditions, patient_id=patient_id, personal_details=personal_details)
