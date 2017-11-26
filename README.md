@@ -15,5 +15,5 @@ python3 main.py
 ## Contributors
 Daniel Davies
 Chris Jan Dudley
-
+God'sGoodness A. Oluwanusin
 Clemens Hutter
