@@ -99,6 +99,7 @@ def display_patient_info(patient_id, hacky_hash):
     try:
         patient_data = Patient_Data.get_patient_data(patient_id)
     except ValueError:
+        print("ladia")
         abort(404)
 
 
