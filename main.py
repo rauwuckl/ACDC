@@ -89,7 +89,11 @@ def notifyDoctor(patient_id, distress):
     header = "A patient needs you (Level {} pain)".format(distress)
     hacky_hash = timer() % 100000
     body = domain + "patientInfo/{}/{}".format(patient_id, hacky_hash)
-    msg = Message(subject=header, sender="pimpmypatient@brueckepfaffenstein.de", body=body, recipients=["chutter@uos.de"])
+    msg = Message(subject=header, sender="pimpmypatient@brueckepfaffenstein.de", body=body, recipients=[
+        "chutter@uos.de",
+        "chris.jan.dudley@gmail.com",
+        "dd16785@my.bristol.ac.uk"
+    ])
     mail.send(msg)
 
 
