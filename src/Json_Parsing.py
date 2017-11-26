@@ -8,10 +8,11 @@ pattern_name = re.compile("([a-zA-Z]*)")
 def load_record(patient_id):
     try:
         #EDIT PATH TO MATCH YOUR LOCAL WORKSPACE
-        path = 'C:/Users/Paperplane/PycharmProjects/OxfordHack/fixtures/records/' + patient_id + '.json'
+        path = '/Users/shakti/PycharmProjects/ACDC/records/' + patient_id + '.json'
         return jn.load(open(path))
     except IOError:
-        print('cannot open', patient_id)
+        print('cannot open ', path)
+        raise ValueError("cannot open {}".format(patient_id))
 
 #Extracts basic data; name, date of birth, gender and returns as dictionary
 def get_personal_details(patient_record):
@@ -96,7 +97,7 @@ def most_recent_observations(obs):
 
 #CALL THIS FUNCTION
 def build_file(patient_id):
-    patient_record = load_record("Anderson596_Mose815_68")
+    patient_record = load_record(patient_id)
     patient_details = get_personal_details(patient_record)
     patient_conditions = get_conditions(patient_record)
     patient_observations = get_observations(patient_record)
@@ -105,6 +106,7 @@ def build_file(patient_id):
         'conditions': patient_conditions,
         'observations': patient_observations
     }
+    return patient_file # easier use in flask
     return jn.dumps(patient_file, indent=4)
 
 
