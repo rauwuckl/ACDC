@@ -5,3 +5,5 @@ fixtures/
 src/__pycache__
 testing.py
 .DS_Store
+src/data
+src/logs

@@ -107,7 +107,6 @@ def build_file(patient_id):
         'observations': patient_observations
     }
     return patient_file # easier use in flask
-    return jn.dumps(patient_file, indent=4)
 
 
 
