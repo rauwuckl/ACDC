@@ -1,8 +1,8 @@
 {
-  "people": ["Anderson596_Mose815_68" , "Brown324_Krystal137_78", "Ankunding307_Kevin849_40",  "Greenholt443_Emilio741_81"],
+  "people": [ "Greenholt443_Emilio741_81", "Anderson596_Mose815_68" , "Brown324_Krystal137_78", "Ankunding307_Kevin849_40"],
   "files": ["1.jpg", "2.jpg", "3.jpg", "4.jpg", "5.jpg"],
   "url": "empty",
-  "personGroupID": "automatic_test_hospital_5",
+  "personGroupID": "automatic_test_hospital_13",
   "subscription_key": "7a9c77da2eb34dd5b13d9dda1ca00071",
   "uri_base": "westeurope.api.cognitive.microsoft.com"
 }
