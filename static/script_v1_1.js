@@ -90,7 +90,8 @@ function call_doctor(){
     }
     //this.discard(); // discard snapshot and show video stream again
   }).fail(function(status_code, error_message, response) {
-    alert("Upload failed with status " + status_code);
+    let respObject = jQuery.parseJSON(response);
+    alert(respObject.message ) ; //respObject.message);
   });
   console.log(snapshot);
 

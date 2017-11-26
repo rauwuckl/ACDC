@@ -29,13 +29,16 @@ def get_face_id(binary_stream):
     response = requests.request('POST', 'https://' + config["uri_base"] + '/face/v1.0/detect/', data=binary_stream, headers=headers, params=params)
 
     response_json = json.loads(response.text)
+
+    if len(response_json) == 0:
+        raise ValueError("No Face in the image")
+
     pain =  classify_pain(response_json)
     faceID = response_json[0]['faceId']
     print(['faceId'])
 
     ms_person_id = identify_person(faceID)
     print(ms_person_id)
-
     our_person_id = ms_id_2_key[ms_person_id]
 
     #TODO translate faceID to our Key
@@ -75,5 +78,8 @@ def identify_person(faceID):
     print(response)
     print(response.text)
     response_json = json.loads(response.text)
+    if len(response_json[0]["candidates"]) == 0:
+        raise RuntimeError("Face wasn't recognised")
+
     canidate = response_json[0]["candidates"][0]["personId"]
     return canidate
