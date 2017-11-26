@@ -115,6 +115,7 @@ html body{
   border: 1px solid black;
   float: left;
   padding: 5px;
+  max-width: 70%;
 }
 
 #patient_profile_pic img{
