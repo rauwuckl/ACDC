@@ -1,0 +1,69 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>PimpMyPatient</title>
+    <link rel="stylesheet" type="text/css" href="/static/style.css">
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.4.2.min.js"></script>
+    <!-- <script type="text/javascript" src="../static/script_v1_1.js"></script> -->
+</head>
+<body patient_identifier="{{ data.patient_id }}">
+<!-- <button id="redirect"> redirect </button> -->
+<div class="content">
+<div class="column">
+  <div id="patient_profile_pic", style="background-color: rgba(255, 0, 0, {{ distress }}"><img src="/api/patientImage/{{ data.patient_id }}"></div>
+  <div id="patient_metadata">
+    <div class="attribute">
+      <p class="title">Name</p>
+      <p class="value">{{ data.personal_details.g_name }} {{ data.personal_details.f_name }}</p>
+    </div>
+    <div class="attribute">
+      <p class="title">Gender</p>
+      <p class="value">{{ data.personal_details.gender }}</p>
+    </div>
+    <div class="attribute">
+      <p class="title">Age</p>
+      <p class="value">{{ data.personal_details.age }}</p>
+    </div>
+    <div class="attribute">
+      <p class="title">Pain</p>
+      <p class="value">{{ distress }}</p>
+    </div>
+  </div>
+</div>
+<div class="column">
+  <div class="info_table" id="conditions_table">
+    <table style="width:100%">
+      <tr>
+        <th>Measurement</th>
+        <th>Date</th>
+        <th>Value</th>
+      </tr>
+      {% for obs in data.observations %}
+      <tr>
+        <td>{{ obs.type }}</td>
+        <td>{{ obs.date[:10] }}</td>
+        <td>{{ obs.val[:8] }} {{ obs.unit }} </td>
+      </tr>
+      {% endfor %}
+    </table>
+  </div>
+  <div class="info_table" id="measurements_table">
+    <table style="width:100%">
+      <tr>
+        <th>Name</th>
+        <th>Onset</th>
+        <th>Status</th>
+      </tr>
+      {% for condition in data.conditions %}
+      <tr>
+        <td>{{ condition.cond_name }}</td>
+        <td>{{ condition.cond_onset[:10] }}</td>
+        <td>{{ condition.cond_status }}</td>
+      </tr>
+      {% endfor %}
+    </table>
+  </div>
+</div>
+</div>
+</body>
+</html>
