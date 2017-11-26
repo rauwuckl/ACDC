@@ -1,7 +1,7 @@
 from io import BytesIO
 
 import flask
-from flask import Flask, render_template, request, send_file, abort
+from flask import Flask, render_template, request, send_file, abort, Response
 from flask_mail import Mail, Message
 from timeit import default_timer as timer
 
@@ -50,7 +50,19 @@ def classifyImage():
     raw_data = request.data
     file_pointer = BytesIO(raw_data)
 
-    patient_id, distress = Vision.get_face_id(raw_data)
+    try:
+        patient_id, distress = Vision.get_face_id(raw_data)
+    except ValueError:
+        print("No face in the image")
+        resp = flask.jsonify({"message": "There was no face in the image."})
+        resp.status_code = 400
+        return resp
+    except RuntimeError:
+
+        print("no face recognised")
+        resp = flask.jsonify({"message":"The Face wasn't recognised"})
+        resp.status_code = 401
+        return resp
 
     patient_pictures[patient_id] = raw_data
     patient_distress_levels[patient_id] = distress
