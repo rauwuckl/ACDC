@@ -8,9 +8,12 @@ Then a Doctor gets notified by email about the patients need. They can then open
 This displays metadata about the patient, relevant measurements, the patients conditions and relevant research paper related to that.
 
 ## Usage
->> git clone 
+>> git clone https://github.com/rauwuckl/ACDC.git
+
 >> cd ACDC
+
 >> pip3 install -r requirements.txt
+
 >> python3 main.py
 
 (--> copy paste the link from the terminal to the browser)
