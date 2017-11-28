@@ -19,7 +19,8 @@ This displays metadata about the patient, relevant measurements, the patients co
 (--> copy paste the link from the terminal to the browser)
 
 ## Contributors
-Daniel Davies . 
+Daniel Davies
+
 Chris Jan Dudley . 
 God'sGoodness A. Oluwanusin . 
 Clemens Hutter
